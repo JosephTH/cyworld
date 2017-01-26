@@ -4,7 +4,7 @@ require 'net/http'
 
   s = Rufus::Scheduler.singleton
 
-  s.every '30s' do
+  s.every '5m' do
   url = URI("http://club.cyworld.com/club/board/general/ListNormal.asp?cpage=1&club_id=52606748&board_no=8&board_type=1&list_type=2&show_type=1&headtag_seq=&search_type=&search_keyword=&search_block=1")
 
   http = Net::HTTP.new(url.host, url.port)
@@ -34,7 +34,7 @@ require 'net/http'
         href = @titles[@index][ 'onclick']
         post_num = /(?<=item_seq=)[0-9]{0,}/.match(href).to_s
         @real_link = 'http://m.club.cyworld.com/52606748/Article/8/View/' + post_num
-	url = "https://api.telegram.org/bot288439817:AAFe-ue26ei-WM_2TlMlCfeSkqLE4zvKNKQ/sendMessage?chat_id=-215545010&text= New notice: #{@title}, Link: #{@real_link}"
+	url = "https://api.telegram.org/bot323491341:AAEbBPY4KtdtPdlLL9mGdK3qH3Wd10xdFfM/sendMessage?chat_id=-215545010&text= New notice: #{@title}, Link: #{@real_link}"
 
 	enc_url = URI.escape(url)
 
@@ -51,6 +51,6 @@ require 'net/http'
        response = http.request(request)
         @index += 1
       end
-  #    Post.create(post_num: @first_number, title: @first_title)
+      Post.create(post_num: @first_number, title: @first_title)
     end
   end
