@@ -2,6 +2,9 @@ require 'rufus-scheduler'
 require 'uri'
 require 'net/http'
 
+  s = Rufus::Scheduler.singleton
+
+  s.every '30s' do
   url = URI("http://club.cyworld.com/club/board/general/ListNormal.asp?cpage=1&club_id=52606748&board_no=8&board_type=1&list_type=2&show_type=1&headtag_seq=&search_type=&search_keyword=&search_block=1")
 
   http = Net::HTTP.new(url.host, url.port)
@@ -9,9 +12,6 @@ require 'net/http'
   request = Net::HTTP::Get.new(url)
   request["cache-control"] = 'no-cache'
   request["postman-token"] = '31ad059c-8460-8dcd-c003-85e7d2c45735'
-  s = Rufus::Scheduler.singleton
-
-  s.every '1m' do
     @response = http.request(request)
     @result = Nokogiri::HTML(@response.read_body.force_encoding('euc-kr').encode('utf-8'))
     @numbers = @result.css('tbody tr td.col_num')
@@ -34,9 +34,23 @@ require 'net/http'
         href = @titles[@index][ 'onclick']
         post_num = /(?<=item_seq=)[0-9]{0,}/.match(href).to_s
         @real_link = 'http://m.club.cyworld.com/52606748/Article/8/View/' + post_num
-        TeleNotify::TelegramUser.send_message_to_all("New notice: #{@title}, Link: #{@real_link}" )
+	url = "https://api.telegram.org/bot288439817:AAFe-ue26ei-WM_2TlMlCfeSkqLE4zvKNKQ/sendMessage?chat_id=-215545010&text= New notice: #{@title}, Link: #{@real_link}"
+
+	enc_url = URI.escape(url)
+
+	url = URI(enc_url)
+
+       http = Net::HTTP.new(url.host, url.port)
+       http.use_ssl = true
+       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+       request = Net::HTTP::Get.new(url)
+       request["cache-control"] = 'no-cache'
+       request["postman-token"] = '687a1a5e-1aa4-2def-c140-c2dc6596d046'
+
+       response = http.request(request)
         @index += 1
       end
-      Post.create(post_num: @first_number, title: @first_title)
+  #    Post.create(post_num: @first_number, title: @first_title)
     end
   end
