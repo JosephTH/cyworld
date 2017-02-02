@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   get 'crawling/cyclub'
   get 'crawling/telegram'
   get 'crawling/send_notification'
-  post '/288439817:AAFe-ue26ei-WM_2TlMlCfeSkqLE4zvKNKQ' => 'application#webhook'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

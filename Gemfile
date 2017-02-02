@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
+gem 'whenever', :require => false
 gem 'rufus-scheduler'
 gem 'telegram-bot-ruby'
-gem 'tele_notify', '~> 0.1.1'
 gem 'nokogiri'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
