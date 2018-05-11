@@ -11,13 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170126163431) do
+ActiveRecord::Schema.define(version: 20170305082127) do
+
+  create_table "currencies", force: :cascade do |t|
+    t.float    "euro"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "goodinfos", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "post_num"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "posts", force: :cascade do |t|
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "post_num"
+  end
+
+  create_table "students", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "post_num"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "telegram_users", force: :cascade do |t|
